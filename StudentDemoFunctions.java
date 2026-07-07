@@ -46,23 +46,57 @@ public class StudentDemoFunctions {
     public static void addStudentInfo(ArrayList<Student> students, Scanner scanner) {
         while (true) {
             System.out.print("\nEnter the name of the student (First Last) or type 'exit' to stop: "); //get student info
+            while (scanner.hasNextInt() || scanner.hasNextDouble()) { //check if user input is valid
+                System.out.print("Invalid input. Please enter a name (First Last) or 'exit' to stop: ");
+                scanner.nextLine();
+            }
             String firstAndLast = scanner.nextLine();
             if (firstAndLast.equalsIgnoreCase("exit")) {
                 System.out.println();
-                break;
+                return;
             }
             
             String[] nameParts = firstAndLast.split(" "); //create array to split first and last
             String firstName = nameParts[0];//first name is first part of array
+            while(nameParts.length < 2) { //check if user input is valid
+                firstName = nameParts[0];
+                System.out.print("Invalid input. Please enter a name (First Last) or 'exit' to stop: ");
+                firstAndLast = scanner.nextLine();
+                nameParts = firstAndLast.split(" ");
+                if (nameParts[0].equalsIgnoreCase("exit")) {
+                    System.out.println();
+                    return;
+                }
+            }
             String lastName = nameParts[1]; //last name is second part of array
 
             System.out.print("Enter the major of the student: ");
+            while (scanner.hasNextInt() || scanner.hasNextDouble()) { 
+                System.out.print("\nInvalid input. Please enter a major: ");
+                scanner.nextLine();
+            }
             String major = scanner.nextLine();
-            System.out.print("Enter the GPA of the student: ");
-            double gpa = scanner.nextDouble();
-            scanner.nextLine(); // Consume the newline character
-
-            Student student = new Student(firstName, lastName, major, gpa); //create a new Student object with user input
+            System.out.print("Enter the GPA of the student (0.0 - 4.0): ");
+            double checkGpa = 0;
+            boolean isValidGpa = false;
+            while (!isValidGpa || scanner.hasNextDouble()) {
+                    checkGpa = scanner.nextDouble();
+                if (checkGpa < 0.0 || checkGpa > 4.0) {
+                    System.out.print("Invalid input. Please enter a GPA (0.0 - 4.0): ");
+                    scanner.nextLine();
+                    continue;
+                }
+                else if (checkGpa >= 0.0 && checkGpa <= 4.0) {
+                    isValidGpa = true;
+                    scanner.nextLine();
+                    break;
+                }
+                else {
+                    System.out.print("Invalid input. Please enter a GPA (0.0 - 4.0): ");
+                    scanner.nextLine();
+                }
+            }
+            Student student = new Student(firstName, lastName, major, checkGpa); //create a new Student object with user input
             students.add(student); //Add the student to the ArrayList
         }
     }
@@ -72,15 +106,26 @@ public class StudentDemoFunctions {
             System.out.println("\nNo students available to delete. Please add students first.\n");
             return;
         }
-        System.out.print("Enter the Student # of the student you would like to delete: ");
-        int studentIndex = scanner.nextInt() - 1;
-        scanner.nextLine(); // Consume the newline character
-        if (studentIndex < 0 || studentIndex >= students.size()) {
-            System.out.println("Invalid student number. Please try again.\n");
-            return;
+        while (true) {
+            System.out.print("Enter the Student # of the student you would like to delete: ");
+            while (!scanner.hasNextInt()) {
+                System.out.println("\nInvalid input. Please enter a valid Student #.");
+                scanner.nextLine(); // Consume the invalid input
+                System.out.print("Enter the Student # of the student you would like to delete: ");
+            }
+            int studentIndex = scanner.nextInt() - 1;
+            if (studentIndex < 0 || studentIndex >= students.size()) {
+                System.out.println("\nInvalid student number. Please try again.");
+                scanner.nextLine(); // Consume the invalid input
+                continue;
+            }
+            else {
+                students.remove(studentIndex);
+                System.out.println("\nStudent #" + (studentIndex + 1) + " has been deleted.\n");
+                return;
+            }
+
         }
-        students.remove(studentIndex);
-        System.out.println("\nStudent #" + (studentIndex + 1) + " has been deleted.\n");
     }
 
 
@@ -107,8 +152,13 @@ public class StudentDemoFunctions {
         }
         while (true) {
             System.out.print("\nWhich student would you like to change (enter the Student #): ");
+            while (!scanner.hasNextInt()) {
+                System.out.println("\nInvalid input. Please enter a valid Student #.");
+                scanner.nextLine(); // Consume the invalid input
+                System.out.print("Which student would you like to change (enter the Student #): ");
+            }
             int studentIndex = scanner.nextInt() - 1;
-            scanner.nextLine(); // Consume the newline character
+            scanner.nextLine();
             if (studentIndex < 0 || studentIndex >= students.size()) {
                 System.out.println("Invalid student number. Please try again.");
                 continue;
@@ -129,31 +179,51 @@ public class StudentDemoFunctions {
                 }
                 else if (changeField.equalsIgnoreCase("first name")) {
                     System.out.print("Enter the new first name: ");
+                    while (scanner.hasNextInt() || scanner.hasNextDouble()) {
+                        System.out.print("\nInvalid input. Please enter a first name: ");
+                        scanner.nextLine(); 
+                    }
                     String newFirst = scanner.nextLine();
                     studentToChange.setFirst(studentToChange, newFirst);
                 }
                 else if (changeField.equalsIgnoreCase("last name")) {
                     System.out.print("Enter the new last name: ");
+                    while (scanner.hasNextInt() || scanner.hasNextDouble()) { 
+                        System.out.print("\nInvalid input. Please enter a last name: ");
+                        scanner.nextLine();
+                    }
                     String newLast = scanner.nextLine();
                     studentToChange.setLast(studentToChange, newLast);
                 }
                 else if (changeField.equalsIgnoreCase("major")) {
                     System.out.print("Enter the new major: ");
+                    while (scanner.hasNextInt() || scanner.hasNextDouble()) {
+                        System.out.print("\nInvalid input. Please enter a major: ");
+                        scanner.nextLine();
+                    }
                     String newMajor = scanner.nextLine();
                     studentToChange.setMajor(studentToChange, newMajor);
                 }
                 else if (changeField.equalsIgnoreCase("GPA")) {
                     System.out.print("Enter the new GPA: ");
+                    while (!scanner.hasNextDouble()) {
+                        System.out.print("\nInvalid input. Please enter a GPA: ");
+                        scanner.nextLine();
+                    }
                     double newGpa = scanner.nextDouble();
-                    scanner.nextLine(); // Consume the newline character
+                    scanner.nextLine();
                     studentToChange.setGpa(studentToChange, newGpa);      
                 }
 
                 System.out.print("\nWould you like to change any other students' information at this time? (yes or no): ");
+                while (scanner.hasNextInt() || scanner.hasNextDouble()) { 
+                    System.out.print("\nInvalid input. Please enter 'yes' or 'no': ");
+                    scanner.nextLine();
+                }
                 String change = scanner.nextLine();
                 if(change.equalsIgnoreCase("no")) {
                     System.out.println();
-                    break;
+                    return;
                 }
             }
         }
