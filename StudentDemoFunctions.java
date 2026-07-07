@@ -16,18 +16,13 @@ public class StudentDemoFunctions {
                 }
                 int selection = scanner.nextInt();
                 scanner.nextLine(); // Consume the newline character
-                if (selection == 1) {
-                    addStudentInfo(students, scanner);
-                } else if (selection == 2) {
-                    displayStudentInfo(students);
-                } else if (selection == 3) {
-                    changeStudentInfo(students, scanner);
-                } else if (selection == 4) {
-                    deleteStudentInfo(students, scanner);
-                } else if (selection == 5) {
-                    exitCase = false;
-                } else {
-                    System.out.println("\nInvalid selection. Please choose a number between 1 and 5.\n");
+                switch (selection) {
+                    case 1 -> addStudentInfo(students, scanner);
+                    case 2 -> displayStudentInfo(students);
+                    case 3 -> changeStudentInfo(students, scanner);
+                    case 4 -> deleteStudentInfo(students, scanner);
+                    case 5 -> exitCase = false;
+                    default -> System.out.println("\nInvalid selection. Please choose a number between 1 and 5.\n");
                 }
             }
         }
@@ -39,7 +34,7 @@ public class StudentDemoFunctions {
         System.out.println("2. Display Student Information");
         System.out.println("3. Change Student Information");
         System.out.println("4. Delete Student Information");
-        System.out.println("5. Exit");
+        System.out.println("5. End Program");
         System.out.print("Enter your selection (1-5): ");
     }
 
@@ -78,8 +73,7 @@ public class StudentDemoFunctions {
             String major = scanner.nextLine();
             System.out.print("Enter the GPA of the student (0.0 - 4.0): ");
             double checkGpa = 0;
-            boolean isValidGpa = false;
-            while (!isValidGpa) {
+            while (true) {
                 while (!scanner.hasNextDouble()) {
                     System.out.print("Invalid input. Please enter a GPA (0.0 - 4.0): ");
                     scanner.nextLine();
@@ -88,10 +82,8 @@ public class StudentDemoFunctions {
                 if (checkGpa < 0.0 || checkGpa > 4.0) {
                     System.out.print("Invalid input. Please enter a GPA (0.0 - 4.0): ");
                     scanner.nextLine();
-                    continue;
                 }
                 else if (checkGpa >= 0.0 && checkGpa <= 4.0) {
-                    isValidGpa = true;
                     scanner.nextLine();
                     break;
                 }
@@ -119,7 +111,6 @@ public class StudentDemoFunctions {
             int studentIndex = scanner.nextInt() - 1;
             if (studentIndex < 0 || studentIndex >= students.size()) {
                 System.out.print("Invalid student number. (Enter a number between 1 and " + students.size() + "): ");
-                continue;
             }
             else {
                 students.remove(studentIndex);
@@ -168,7 +159,6 @@ public class StudentDemoFunctions {
             scanner.nextLine();
             if (studentIndex < 0 || studentIndex >= students.size()) {
                 validInput = true;
-                continue;
             }
             else {
                 Student studentToChange = students.get(studentIndex);
