@@ -5,13 +5,6 @@ public class Student {
     private String last;
     private double GPA;
 
-    public Student() { //null constructor
-        major = null;
-        first = null;
-        last = null;
-        GPA = 0;
-    }
-
     public Student(String f, String l, String m, double grade) { //student constructor
         major = m;
         first = f;
