@@ -27,7 +27,7 @@ public class StudentDemoFunctions {
                 } else if (selection == 5) {
                     exitCase = false;
                 } else {
-                    System.out.println("Invalid selection. Please choose a number between 1 and 5.");
+                    System.out.println("\nInvalid selection. Please choose a number between 1 and 5.\n");
                 }
             }
         }
