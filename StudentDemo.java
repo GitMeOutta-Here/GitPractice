@@ -5,6 +5,7 @@ public class StudentDemo {
     public static void main(String[] args) {
         ArrayList<Student> students = new ArrayList<Student>();
         boolean exitCase = true;
+        boolean changeCase = true;
 
             try (Scanner scanner = new Scanner(System.in)) {
                 while (exitCase) {
@@ -38,10 +39,11 @@ public class StudentDemo {
                     System.out.println("--------------------------------------------------");
                 }
             }
-            while (exitCase) {
+            while (exitCase || students.size() > 0) {
                 System.out.print("Would you like to change any of the students information (yes or no)? ");
                 String change = scanner.nextLine();
                 if(change.equalsIgnoreCase("no")) {
+                    changeCase = false;
                     break;
                 }
 
@@ -89,14 +91,16 @@ public class StudentDemo {
                         }
                     }
                 }
-                for (Student student : students) {
-                System.out.println("--------------------------------------------------");
-                System.out.println("Revised Student Information " + "(Student #" + (students.indexOf(student) + 1) + "):");
-                System.out.println("Student: " + student.getFirstAndLast(student));
-                System.out.println("Major: " + student.getMajor(student));
-                System.out.println("GPA: " + student.getGpa(student));
-                if (students.indexOf(student) == students.size() - 1) {
+                if (changeCase) {
+                    for (Student student : students) {
                     System.out.println("--------------------------------------------------");
+                    System.out.println("Revised Student Information " + "(Student #" + (students.indexOf(student) + 1) + "):");
+                    System.out.println("Student: " + student.getFirstAndLast(student));
+                    System.out.println("Major: " + student.getMajor(student));
+                    System.out.println("GPA: " + student.getGpa(student));
+                    if (students.indexOf(student) == students.size() - 1) {
+                        System.out.println("--------------------------------------------------");
+                    }
                 }
             }
         }
