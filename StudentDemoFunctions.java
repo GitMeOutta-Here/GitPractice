@@ -11,11 +11,11 @@ public class StudentDemoFunctions {
                     displayMenu();
                 while (!scanner.hasNextInt()) {
                     System.out.println("Invalid input. Please enter a number between 1 and 5.\n");
-                    scanner.nextLine(); // Consume the invalid input
+                    scanner.nextLine();
                     displayMenu();
                 }
                 int selection = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
+                scanner.nextLine();
                 switch (selection) {
                     case 1 -> addStudentInfo(students, scanner);
                     case 2 -> displayStudentInfo(students);
@@ -28,6 +28,7 @@ public class StudentDemoFunctions {
         }
     }
 
+    // Display the menu with options
     public static void displayMenu() {
         System.out.println("Please select an option:");
         System.out.println("1. Add Student Information");
@@ -38,6 +39,7 @@ public class StudentDemoFunctions {
         System.out.print("Enter your selection (1-5): ");
     }
 
+    // Add a new student to the system
     public static void addStudentInfo(ArrayList<Student> students, Scanner scanner) {
         while (true) {
             System.out.print("Enter the name of the student (First Last) or type 'exit' to stop: "); //get student info
@@ -97,6 +99,7 @@ public class StudentDemoFunctions {
         }
     }
 
+    // Delete a student from the system
     public static void deleteStudentInfo(ArrayList<Student> students, Scanner scanner) {
         if (students.isEmpty()) {
             System.out.println("\nNo students available to delete. Please add students first.\n");
@@ -121,7 +124,7 @@ public class StudentDemoFunctions {
         }
     }
 
-
+    // Display a student's information in a table format
     public static void displayStudentInfo(ArrayList<Student> students) {
         if (students.isEmpty()) {
             System.out.println("\nNo students available to display. Please add students first.\n");
@@ -138,6 +141,8 @@ public class StudentDemoFunctions {
             }
         }
     }
+
+    // Edit some piece of the student's information
     public static void changeStudentInfo(ArrayList<Student> students, Scanner scanner) {
         boolean validInput = false;
         if (students.isEmpty()) {
